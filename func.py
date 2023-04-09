@@ -14,29 +14,45 @@ from console import fx
 # Variables
 
 unallowed = r'\/:*?"<>|'
+kpress = f"{fx.italic}Press Any Key...{fx.end}"
+error = f"{fx.italic + fx.bold}Error: "
+newline = "\n"
+quotation = "\""
 
 
 def cls():
     sys('clear')
 
 
-kpress = f"{fx.italic}Press Any Key...{fx.end}"
-
 # Menu
 
 
 class Menu:
 
+    def error(str):
+        return f"{error}{str}{fx.end}\n{kpress}\n"
+
+    def boldtext(str):
+        return f"{fx.bold}{str}{fx.end}"
+
+    def italictext(str):
+        return f"{fx.italic}{str}{fx.end}"
+
+    def arrow():
+        return f"{fx.bold}>>{fx.end} "
+
     def title():
         cls()
-        print(f"{fx.bold}Hierarchy Creator\ndacoder101{fx.end}\n\n{kpress}")
+        print(
+            f"{Menu.boldtext(f'Hierarchy Creator{newline}dacoder101')}\n\n{kpress}"
+        )
         key()
 
     def mainMenu():
         cls()
         try:
             return input(
-                f"{fx.bold}Select an Option:{fx.end}\n\n[C]: Create New Hierarchy\n[O]: Open an Existing Hierarchy\n[I]: Information\n[E]: Exit Hierarchy Editor\n\n{fx.bold}>>{fx.end} "
+                f"{Menu.boldtext('Select an Option')}\n\n[C]: Create New Hierarchy\n[O]: Open an Existing Hierarchy\n[I]: Information\n[E]: Exit Hierarchy Editor\n\n{Menu.arrow()}"
             ).lower().strip()
         except:
             Menu.mainMenu()
@@ -46,7 +62,7 @@ class Menu:
             cls()
             try:
                 name = input(
-                    f"{fx.bold}Create Hierarchy:{fx.end}\n\nName: ").strip()
+                    f"{Menu.boldtext('Create Hierarchy')}\n\nName: ").strip()
             except:
                 Menu.create()
             cls()
@@ -56,7 +72,7 @@ class Menu:
     def info():
         cls()
         print(
-            f"{fx.bold}Hierarchy Creator\nBy dacoder101\n{fx.italic}Made for Pyos3{fx.end}\n\nHierarchy Creator allows your to create custom hierarchies with possibly needed information on pyos.\n\n{kpress}"
+            f"{Menu.boldtext(f'Hierarchy Creator{newline}By dacoder101')}\n{Menu.italictext('Made for Pyos3')}\n\nHierarchy Creator allows your to create custom hierarchies with possibly needed information on pyos.\n\n{kpress}"
         )
         key()
 
@@ -67,32 +83,50 @@ class Menu:
             if "." in dir: dirs.remove(dir)
         dirs = sorted(dirs)
 
-        printStr = f"{fx.bold}Available Hierarchies:{fx.end}\n\n"
+        printStr = f"{Menu.boldtext('Available Hierarchies')}\n\n"
         if dirs != []:
-            for f in dir:
-                printStr += f"↳ \"{f}\"\n"
-            printStr += f"\n{fx.bold}>>{fx.end} "
+            for f in dirs:
+                printStr += f" ↳ \"{f}\"\n"
+            printStr += f"\n{Menu.arrow()}"
         else:
-            print(
-                f"{fx.italic}Error: No valid hierarchies found.{fx.end}\n{kpress}"
-            )
+            print(Menu.error("No valid hierarchies found."))
             key()
             return False
         while True:
             cls()
             try:
-                option = input(printStr).strip()
-                h = Hierarchy(option)
+                o = input(printStr).strip()
+                h = Hierarchy(o)
                 if h.check(): break
                 else:
-                    cls()
-                    print(
-                        f"{fx.italic}Error: This hierarchy does not exist.\nCorrect captialization is nessesary.{fx.end}\n{kpress}"
-                    )
-                    key()
+                    if o == "": pass
+                    else:
+                        cls()
+                        print(
+                            Menu.error(
+                                f"Hierarchy \"{o}\" was not found.\nCorrect captialization and spacing is nessesary."
+                            ))
+                        key()
             except:
                 pass
-        return option
+        return o
+
+    def creator(object):
+        while True:
+            cls()
+            files = []
+            dir = Menu.boldtext(f"Directory: {quotation}/{object}/{quotation}")
+            printStr = f"{Menu.boldtext(f'Hierarchy: {quotation}{object}{quotation}')}\n{dir}\n\n"
+            for file in lsDir(f"HierarchyCreator/{object}/"):
+                files.append(file)
+            if files != []:
+                for file in files:
+                    printStr += f" ↳ \"{file}\"\n"
+            else:
+                printStr += Menu.italictext(
+                    "No files or directories were found.\nCreate a new one.\n\n")
+            printStr = f"{printStr}\n{Menu.arrow()}"
+            o = input(printStr)
 
 
 # Function
@@ -120,19 +154,20 @@ class Hierarchy:
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return self.name
+
     def create(self):
         name = self.name
         for char in name:
             if char in unallowed:
                 print(
-                    f"{fx.italic}Error: This name includes unallowed characters.{fx.end}\n{kpress}"
-                )
+                    Menu.error(
+                        f"The name \"{name}\"includes unallowed characters."))
                 key()
                 return False
         if name in lsDir("HierarchyCreator"):
-            print(
-                f"{fx.italic}Error: This name is already in use.{fx.end}\n{kpress}"
-            )
+            print(Menu.error(f"The name \"{name}\"is already in use."))
             key()
             return False
         mkDir(f"HierarchyCreator/{name}")
