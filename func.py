@@ -81,13 +81,13 @@ class Menu:
         while True:
             cls()
             try:
-                option = input(printStr).lower().strip()
+                option = input(printStr).strip()
                 h = Hierarchy(option)
                 if h.check(): break
                 else:
                     cls()
                     print(
-                        f"{fx.italic}Error: This hierarchy does not exist.{fx.end}\n{kpress}"
+                        f"{fx.italic}Error: This hierarchy does not exist.\nCorrect captialization is nessesary.{fx.end}\n{kpress}"
                     )
                     key()
             except:
