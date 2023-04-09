@@ -17,7 +17,6 @@ from console import fx
 
 # Setup
 
-kpress = f"{fx.italic}Press Any Key...{fx.end}"
 hierarchy = ""
 
 
@@ -33,18 +32,15 @@ if "HierarchyCreator" not in lsDir():
 m.title()
 while True:
     o = m.mainMenu()
-
     if o == "": pass
     elif o == "c":
         m.create()
     elif o == "o":
-        option = m.selector()
-        if not option: pass
+        o = m.selector()
+        if not o: pass
         else:
-            h = Hierarchy(option)
-            cls()
-            print(f"WIP!\n{kpress}")
-            key()
+            h = Hierarchy(o)
+            m.creator(h)
     elif o == "i":
         m.info()
     elif o == "e":
@@ -52,7 +48,5 @@ while True:
         break
     else:
         cls()
-        print(
-            f"{fx.italic}Error: Option \"{o}\" was not found.\nPress Any Key...{fx.end}"
-        )
+        print(m.error(f"Option \"{o}\" not found."))
         key()
