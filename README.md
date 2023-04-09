@@ -4,7 +4,7 @@ A python program allowing for custom hierarchies all from CLI.
 One of the most time consuming projects I've ever tried.
 This will also be integrated into my upcoming "Pyos3" project.
 
-<i>Also, you will most likely need to install this package if you do not plan to use the releases.</i>
+<i>You will most likely need to install this package if you do not plan to use the releases.</i>
 
 <code>pip install console</code>
 
