@@ -1,5 +1,5 @@
 # Hierarchy Creator by dacoder101
-# func.py
+# hierarchy.py
 
 # Imports
 
