@@ -77,18 +77,17 @@ class Menu:
         key()
 
     def selector():
-        cls()
         dirs = lsDir("HierarchyCreator")
         for dir in dirs:
-            if "." in dir: dirs.remove(dir)
+            if not os.path.isdir(f"HierarchyCreator/{dir}"): dirs.remove(dir)
         dirs = sorted(dirs)
-
         printStr = f"{Menu.boldtext('Available Hierarchies')}\n\n"
         if dirs != []:
             for f in dirs:
                 printStr += f" ↳ \"{f}\"\n"
             printStr += f"\n{Menu.arrow()}"
         else:
+            cls()
             print(Menu.error("No valid hierarchies found."))
             key()
             return False
