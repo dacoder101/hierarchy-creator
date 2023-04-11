@@ -9,6 +9,9 @@ This will also be integrated into my upcoming "pyos3" project.
 <code>pip install console</code><br><br>
 <b>Note! The source code uses operations designed for Unix (also works with macOS)!<br>Even though EXE releases are designed for Windows, if you plan to use the src you will need to convert the "clear" statement used in the cls() function in both hierarchy and func.py to your native terminals clear statement.<br>(This would be "cls" for Windows!)</b>
 <hr>
+<b>Plan to use PyInstaller yourself? You will likely run into an error.</b>
+<b>For some reason, you need to install a package </b><code>pip install future-fstrings</code><b> which should stop any errors you are facing.</b>
+<hr>
 This project was developed on and can be found at <a href="https://replit.com/@bobbypac/Hierarchy-Creator" target="_blank">Replit</a>.
 
 <i>Want to contribute or have a suggestion? Leave an issue or PR!</i>
