@@ -1,5 +1,5 @@
 <h1>Hierarchy Creator</h1>
-A python program allowing for custom hierarchies all from CLI.
+A python program allowing for custom hierarchies all from the CLI.
 
 One of the most time consuming projects I've ever tried.
 This will also be integrated into my upcoming "pyos3" project.
