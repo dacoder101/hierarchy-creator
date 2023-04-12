@@ -1,4 +1,4 @@
-# Note: I decided to add this file as this was developed off replit and is ideal to use on replit regardless.
+# Note: I decided to add this file as this was developed off replit and is ideal to use on replit.
 
 # The command that runs the program. If the interpreter field is set, it will have priority and this run command will do nothing
 run = "python3 hierarchy.py"
