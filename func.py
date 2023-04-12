@@ -52,7 +52,7 @@ class Menu:
         cls()
         try:
             return input(
-                f"{Menu.boldText('Select an Option')}\n\n[C]: Create New Hierarchy\n[O]: Open an Existing Hierarchy\n[I]: Information\n[E]: Exit Hierarchy Editor\n\n{Menu.arrow()}"
+                f"{Menu.boldText('Select an Option')}\n\n[C]: Create New Hierarchy\n[O]: Open an Existing Hierarchy\n[T]: Tutorial for Creator\n[I]: Information\n[E]: Exit Hierarchy Editor\n\n{Menu.arrow()}"
             ).lower().strip()
         except:
             Menu.mainMenu()
@@ -78,7 +78,10 @@ class Menu:
 
     def tutorial():
         cls()
-        print(f"{Menu.boldText(f'Tutorial:{newline + newline}')}")
+        print(
+            f"{Menu.boldText(f'Tutorial:{newline + newline}')}Using the Creator is like using a basic terminal\nRemember that the hierarchy and directory are always shown at the top of the screen.\nTo create a file or directory, use cfile or cdir [file/dirname] of that file/dir.\nTo read a file, type cat [filename].\nWant to write to a file? Use write [filename] to begin the writing process.\nDeleting a file is as simple as using dfile or ddir [file/dirname].\nChange directory? Use cd [dirname]. cd also allows you to change back to the previous directory (../), or the root directory (/).\nWant to list files of a directory without entering? Use dir or ls, each works!\nDone with your file writing or want to leave the hierarchy? Simply type exit.\n\nThis terminal is guided to shift less technical users into using a terminal style.\n{kpress}"
+        )
+        key()
 
     def selector():
         dirs = lsDir("HierarchyCreator/")
@@ -92,7 +95,7 @@ class Menu:
             printStr += f"\n{Menu.arrow()}"
         else:
             cls()
-            print(Menu.error("No valid hierarchies found."))
+            print(Menu.error("No valid hierarchies found.\nCreate a new one."))
             key()
             return False
         while True:
