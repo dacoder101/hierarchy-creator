@@ -39,6 +39,8 @@ while True:
         else:
             h = Hierarchy(o, f"{o}")
             m.creator(h)
+    elif o == "t":
+        m.tutorial()
     elif o == "i":
         m.info()
     elif o == "e":
