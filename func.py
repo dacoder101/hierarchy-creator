@@ -29,14 +29,14 @@ def cls():
 
 class Menu:
 
-    def error(str):
-        return f"{error}{str}{fx.end}\n{kpress}\n"
-
-    def boldtext(str):
+    def boldText(str):
         return f"{fx.bold}{str}{fx.end}"
 
-    def italictext(str):
+    def italicText(str):
         return f"{fx.italic}{str}{fx.end}"
+
+    def error(str):
+        return f"{error}{str}{fx.end}\n{kpress}\n"
 
     def arrow():
         return f"{fx.bold}>>{fx.end} "
@@ -44,7 +44,7 @@ class Menu:
     def title():
         cls()
         print(
-            f"{Menu.boldtext(f'Hierarchy Creator{newline}dacoder101')}\n\n{kpress}"
+            f"{Menu.boldText(f'Hierarchy Creator{newline}dacoder101')}\n\n{kpress}"
         )
         key()
 
@@ -52,7 +52,7 @@ class Menu:
         cls()
         try:
             return input(
-                f"{Menu.boldtext('Select an Option')}\n\n[C]: Create New Hierarchy\n[O]: Open an Existing Hierarchy\n[I]: Information\n[E]: Exit Hierarchy Editor\n\n{Menu.arrow()}"
+                f"{Menu.boldText('Select an Option')}\n\n[C]: Create New Hierarchy\n[O]: Open an Existing Hierarchy\n[I]: Information\n[E]: Exit Hierarchy Editor\n\n{Menu.arrow()}"
             ).lower().strip()
         except:
             Menu.mainMenu()
@@ -62,26 +62,30 @@ class Menu:
             cls()
             try:
                 name = input(
-                    f"{Menu.boldtext('Create Hierarchy')}\n\nName: ").strip()
+                    f"{Menu.boldText('Create Hierarchy')}\n\nName: ").strip()
+                cls()
+                h = Hierarchy(name, name)
+                if h.create(): break
             except:
-                Menu.create()
-            cls()
-            h = Hierarchy(name)
-            if h.create(): break
+                pass
 
     def info():
         cls()
         print(
-            f"{Menu.boldtext(f'Hierarchy Creator{newline}By dacoder101')}\n{Menu.italictext('Made for Pyos3')}\n\nHierarchy Creator allows your to create custom hierarchies with possibly needed information on pyos.\n\n{kpress}"
+            f"{Menu.boldText(f'Hierarchy Creator{newline}By dacoder101')}\n{Menu.italicText('Made for Pyos3')}\n\nHierarchy Creator allows your to create custom hierarchies with possibly needed information on pyos.\n\n{kpress}"
         )
         key()
 
+    def tutorial():
+        cls()
+        print(f"{Menu.boldText(f'Tutorial:{newline + newline}')}")
+
     def selector():
-        dirs = lsDir("HierarchyCreator")
+        dirs = lsDir("HierarchyCreator/")
         for dir in dirs:
             if not os.path.isdir(f"HierarchyCreator/{dir}"): dirs.remove(dir)
         dirs = sorted(dirs)
-        printStr = f"{Menu.boldtext('Available Hierarchies')}\n\n"
+        printStr = f"{Menu.boldText('Available Hierarchies')}\n\n"
         if dirs != []:
             for f in dirs:
                 printStr += f" ↳ \"{f}\"\n"
@@ -95,7 +99,7 @@ class Menu:
             cls()
             try:
                 o = input(printStr).strip()
-                h = Hierarchy(o)
+                h = Hierarchy(o, o)
                 if h.check(): break
                 else:
                     if o == "": pass
@@ -110,22 +114,36 @@ class Menu:
                 pass
         return o
 
-    def creator(object):
+    def creator(obj):
         while True:
             cls()
+            currentDir = obj.getDir()
+            dirs = lsDir(obj.getLegalDir())
+            folders = []
             files = []
-            dir = Menu.boldtext(f"Directory: {quotation}/{object}/{quotation}")
-            printStr = f"{Menu.boldtext(f'Hierarchy: {quotation}{object}{quotation}')}\n{dir}\n\n"
-            for file in lsDir(f"HierarchyCreator/{object}/"):
-                files.append(file)
-            if files != []:
-                for file in files:
-                    printStr += f" ↳ \"{file}\"\n"
+            printStr = Menu.boldText(
+                f"Hierarchy: \"{obj}\"\nDirectory: \"/{currentDir}\"\n\nAvailable Files:\n\n"
+            )
+            if dirs != []:
+                for f in dirs:
+                    if os.path.isdir(f"{obj.getLegalDir()}/{f}"):
+                        folders.append(f + "/")
+                    else:
+                        files.append(f)
+                folders = sorted(folders)
+                files = sorted(files)
+                dirs = folders + files
+                for f in dirs:
+                    printStr += f" ↳ \"{f}\"\n"
             else:
-                printStr += Menu.italictext(
-                    "No files or directories were found.\nCreate a new one.\n\n")
-            printStr = f"{printStr}\n{Menu.arrow()}"
-            o = input(printStr)
+                printStr += Menu.italicText(
+                    "No files or directories were found.\nFind information on creating files and directories in the Tutorial.\n"
+                )
+            try:
+                o = input(f"{printStr}{newline}{Menu.arrow()}").strip()
+                if o == "": pass
+            except:
+                pass
 
 
 # Function
@@ -150,8 +168,10 @@ class Function:
 
 class Hierarchy:
 
-    def __init__(self, name):
+    def __init__(self, name, dir):
         self.name = name
+        if dir[-1] != "/": dir += "/"
+        self.dir = dir
 
     def __str__(self):
         return self.name
@@ -162,19 +182,30 @@ class Hierarchy:
             if char in unallowed:
                 print(
                     Menu.error(
-                        f"The name \"{name}\"includes unallowed characters."))
+                        f"The name of \"{name}\"includes unallowed characters."
+                    ))
                 key()
                 return False
-        if name in lsDir("HierarchyCreator"):
-            print(Menu.error(f"The name \"{name}\"is already in use."))
+        if name in lsDir("HierarchyCreator/"):
+            print(Menu.error(f"The name of \"{name}\"is already in use."))
             key()
             return False
-        mkDir(f"HierarchyCreator/{name}")
+        mkDir(f"HierarchyCreator/{name}/")
         print(f"{fx.bold}Success!{fx.end} New hierarchy created.\n{kpress}")
         key()
         return True
 
     def check(self):
-        name = self.name
-        if name in lsDir("HierarchyCreator"): return True
+        if self.dir[:-1] in lsDir("HierarchyCreator/"): return True
         return False
+
+    def changeDir(self, dir):
+        if dir[-1] != "/": self.dir = dir + "/"
+        else: self.dir = dir
+        return dir
+
+    def getDir(self):
+        return self.dir
+
+    def getLegalDir(self):
+        return f"HierarchyCreator/{self.dir}"
