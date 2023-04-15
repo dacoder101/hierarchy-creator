@@ -35,4 +35,4 @@ This project was developed on and can be found at <a href="https://replit.com/@b
 
 <i>Want to contribute or have a suggestion? Leave an issue or PR!</i>
 
-<b>Note: Work on pyos3 will begin after NEXT RELEASE!</b>
+<b>The next release is the FINAL release! Pyos3 will begin soon after.</b>
