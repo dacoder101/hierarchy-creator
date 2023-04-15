@@ -10,7 +10,7 @@ This will also be integrated into my upcoming "pyos3" project.
   <li>Menu's and inputs don't output any response, or are entirely skipped.<br>I am unsure why this happens, but I think it may have something to do with the reason above.<br>(Simply restart the program. I have only seen this issue on Replit.)</li>
   <li>Files and directories cannot have the same name.<br>I cannot fix this because of the way commands are written.<br>If you attempt to do so, you will be noted of this.</li>
   <li>Simply typing a command doesn't output any response.<br>I don't plan to fix this as it has little to no impact.<br>If you'd like, create a PR with information attached to each command if no arguments are present.</li>
-  <li>The code format is just bad in general.<br>I don't plan to revisit this after it is completed.<br>If you want to reformat the code (please do), create a PR.</li>
+  <li>The code format is just bad in general.<br>I don't plan to revisit this after it is completed.<br>If you want to reformat the code (greatly appreciated), create a PR.</li>
 </ul>
 <hr>
 <h3>SRC Confusion</h3>
