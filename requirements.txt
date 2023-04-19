@@ -1,0 +1,4 @@
+# Basically pointless, thought I'd add it anyway though.
+
+future-fstrings=1.2.0
+console=0.9907
