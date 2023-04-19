@@ -1,5 +1,6 @@
 <h1>Hierarchy Creator</h1>
-<h3>Expect the final release by Sunday, at the latest Tuesday!</h2>
+<h3>Sorry for another postponed release! Bugfixes and other addtions have been released.</h3>
+<b>Work on the writing system has not started yet, but I will expect it to take til Friday at the least.<br>No changes will be made this weekend. If it is not completed by then it will 100% be finished by May 1st.</b><br><br>
 A python program allowing for custom hierarchies all from the CLI.
 
 One of the most time consuming projects I've ever tried.
