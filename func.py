@@ -310,9 +310,11 @@ class Command:
         elif main == "cat":
             try:
                 if arg in lsDir(legalDir):
-                    print(
-                        f"{Menu.boldText(f'Reading File: /{obj.getDir()}/{arg}/'.replace('//', '/'))}\n\n{Function.openR(f'{legalDir}/{arg}')}\n\n{kpress}"
-                    )
+                    if len(Function.openR(f"{legalDir}/{arg}")) < 1: 
+                        printStr = f"{Menu.boldText(f'Reading File: /{obj.getDir()}/{arg}/'.replace('//', '/'))}\n\n{Menu.italicText(f'This file is empty.{newline}You can write to it using {quotation}write [{arg}]{quotation}')}\n\n{kpress}"
+                    else:
+                        printStr = f"{Menu.boldText(f'Reading File: /{obj.getDir()}/{arg}/'.replace('//', '/'))}\n\n{Function.openR(f'{legalDir}/{arg}')}\n\n{kpress}"
+                    print(printStr)
                     key()
             except:
                 return Menu.error(
@@ -329,7 +331,7 @@ class Function:
 
     def openR(file):
         with open(file, "r") as file:
-            return file.read()
+            return file.read().strip()
 
     def openW(file, w):
         with open(file, "w") as file:
