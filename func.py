@@ -64,7 +64,7 @@ class Menu:
     def tutorial():
         cls()
         print(
-            f"{Menu.boldText(f'Tutorial:')}\n\nUsing the Creator is like using a basic terminal.\nRemember that the hierarchy and directory are always shown at the top of the screen.\nTo create a file or directory, use create [file/dirname (end in /)] of that file/dir.\nTo read a file, type cat [filename].\nWant to write to a file? Use write [filename] to begin the writing process.\nDeleting a file is as simple as using del [file/dirname (needs to end in /)].\nChange directory? Use cd [dirname]. cd also allows you to change back to the previous directory (../).\nWant to list files of a directory without entering? Use dir or ls, each works!\nDone with your file writing or want to leave the hierarchy? Simply type exit.\n\nThis terminal is guided to shift less technical users into using some basic terminal commands.\n{kpress}"
+            f"{Menu.boldText(f'Tutorial:')}\n\nUsing the Creator is like using a basic terminal.\nRemember that the hierarchy and directory are always shown at the top of the screen.\nTo create a file or directory, use create [file/dirname (end in /)].\nTo read a file, type cat [filename].\nWant to write to a file? Use write [filename] to begin the writing process.\nDeleting a file is as simple as using del [file/dirname (needs to end in /)].\nChange directory? Use cd [dirname]. cd also allows you to change back to the previous directory (../).\nWant to list files of a directory without entering? Use dir or ls, each works!\nDone with your file writing or want to leave the hierarchy? Simply type exit.\n\nThis terminal is guided to shift less technical users into using some basic terminal commands.\n{kpress}"
         )
         key()
 
@@ -112,14 +112,15 @@ class Menu:
             if h.check(): return o
             else:
                 r = Command.selector(o.split())
-                if r != False:
+                if r == None: pass
+                elif r != False:
                     if r == "exit": break
                     print(r)
                     key()
                 else:
                     print(
                         Menu.error(
-                            "No command or hierarchy was found.\nCapitalization is nessesary."
+                            f"No command or hierarchy was found. \"{o}\"\nCapitalization is nessesary."
                         ))
                     key()
 
@@ -162,11 +163,9 @@ class Menu:
                         print(r)
                         key()
                     else:
-                        print(
-                            Menu.error(f"The command {o[0]} does not exist."))
+                        print(Menu.error(f"The command \"{o}\" does not exist."))
                         key()
-            except:
-                pass
+            except: pass
 
 
 # Command
@@ -239,7 +238,8 @@ class Command:
             try:
                 if arg[-1] == "/":
                     mkDir(f"{legalDir}/{arg}")
-                    return Menu.success(f"Created directory \"{arg}\".")
+                    return Menu.success(
+                        f"Created directory \"{arg.replace('/', '')}/\".")
                 else:
                     Function.openX(f"{legalDir}/{arg}")
                     return Menu.success(f"Created file \"{arg}\".")
@@ -249,7 +249,9 @@ class Command:
                 )
         elif main == "del":
             try:
-                if arg == "*":
+                if lsDir(legalDir) == []:
+                    return Menu.error("No files to delete were found.")
+                elif arg == "*":
                     try:
                         o = input(
                             f"{Menu.boldText('Warning: ')} This operating will delete ALL files and folders within this directory.\nType \"OK\" to confirm.\n\n{arrow}"
@@ -277,7 +279,9 @@ class Command:
                     "An issue occured while processing your del command.\nNote that deleteing a directory requires a backslash. (Ex: \"del ex/\")"
                 )
         elif main == "cd":
-            if arg == "../" or arg == "/..":
+            if arg == "/":
+                obj.changeDir(obj.__str__())
+            elif arg == "../" or arg == "/..":
                 if obj.getDir() == f"{obj}/":
                     return Menu.error("You cannot cd any further back.")
                 else:
@@ -291,12 +295,23 @@ class Command:
             elif arg == "./" or arg == "/.":
                 pass
             elif os.path.exists(f"{legalDir}/{arg}") and os.path.isdir(
-                    f"{legalDir}/{arg}") and arg != "/" and arg != ".":
+                    f"{legalDir}/{arg}") and arg[0] != "/" and arg != ".":
                 dir = f"{obj.getDir()}/{arg}"
                 obj.changeDir(dir)
             else:
                 return Menu.error(
                     "An issue occured while processing your cd command.\nNote that you cannot cd into a file."
+                )
+        elif main == "cat":
+            try:
+                if arg in lsDir(legalDir):
+                    print(
+                        f"{Menu.boldText(f'Reading File: /{obj.getDir()}/{arg}/'.replace('//', '/'))}\n\n{Function.openR(f'{legalDir}/{arg}')}\n\n{kpress}"
+                    )
+                    key()
+            except:
+                return Menu.error(
+                    "An issue occured while processing your cat command.\nNote you cannot cat a folder."
                 )
         else:
             return False
@@ -365,7 +380,6 @@ class Hierarchy:
         return False
 
     def changeDir(self, dir):
-
         if dir[-1] != "/":
             self.dir = dir + "/"
         else:
