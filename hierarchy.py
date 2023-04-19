@@ -54,8 +54,9 @@ def main():
             break
         else:
             cls()
-            print(m.error(f"The option \"{o}\" has not been found."))
-            key()
+            if o != None:
+                print(m.error(f"The option \"{o}\" has not been found."))
+                key()
 
 
 if __name__ == "__main__": main()
