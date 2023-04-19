@@ -316,6 +316,8 @@ class Command:
                         printStr = f"{Menu.boldText(f'Reading File: /{obj.getDir()}/{arg}/'.replace('//', '/'))}\n\n{Function.openR(f'{legalDir}/{arg}')}\n\n{kpress}"
                     print(printStr)
                     key()
+                else:
+                    raise FileNotFoundError
             except:
                 return Menu.error(
                     "An issue occured while processing your cat command.\nNote you cannot cat a folder."
