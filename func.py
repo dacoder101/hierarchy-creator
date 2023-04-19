@@ -106,23 +106,26 @@ class Menu:
                         "No valid hierarchies found.\nCreate a new one."))
                 key()
                 break
-            o = input(printStr).strip()
-            cls()
-            h = Hierarchy(o, o)
-            if h.check(): return o
-            else:
-                r = Command.selector(o.split())
-                if r == None: pass
-                elif r != False:
-                    if r == "exit": break
-                    print(r)
-                    key()
+            try:
+                o = input(printStr).strip()
+                cls()
+                h = Hierarchy(o, o)
+                if h.check(): return o
                 else:
-                    print(
-                        Menu.error(
-                            f"No command or hierarchy was found. \"{o}\"\nCapitalization is nessesary."
-                        ))
-                    key()
+                    r = Command.selector(o.split())
+                    if r == None: pass
+                    elif r != False:
+                        if r == "exit": break
+                        print(r)
+                        key()
+                    else:
+                        print(
+                            Menu.error(
+                                f"No command or hierarchy was found. \"{o}\"\nCapitalization is nessesary."
+                            ))
+                        key()
+            except:
+                pass
 
     def creator(obj):
         while True:
@@ -163,9 +166,11 @@ class Menu:
                         print(r)
                         key()
                     else:
-                        print(Menu.error(f"The command \"{o}\" does not exist."))
+                        print(
+                            Menu.error(f"The command \"{o}\" does not exist."))
                         key()
-            except: pass
+            except:
+                pass
 
 
 # Command
