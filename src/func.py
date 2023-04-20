@@ -23,6 +23,8 @@ arrow = f"{fx.bold}>>{fx.end} "
 newline = "\n"
 quotation = "\""
 
+noArg = False
+
 
 def cls():
     sys('clear')
@@ -64,7 +66,7 @@ class Menu:
     def tutorial():
         cls()
         print(
-            f"{Menu.boldText(f'Tutorial:')}\n\nUsing the Creator is like using a basic terminal.\nRemember that the hierarchy and directory are always shown at the top of the screen.\nTo create a file or directory, use create [file/dirname (end in /)].\nTo read a file, type cat [filename].\nWant to write to a file? Use write [filename] to begin the writing process.\nDeleting a file is as simple as using del [file/dirname (needs to end in /)].\nChange directory? Use cd [dirname]. cd also allows you to change back to the previous directory (../).\nWant to list files of a directory without entering? Use dir or ls, each works!\nDone with your file writing or want to leave the hierarchy? Simply type exit.\n\nThis terminal is guided to shift less technical users into using some basic terminal commands.\n{kpress}"
+            f"{Menu.boldText(f'Tutorial:')}\n\nUsing the Creator is like using a basic terminal.\nRemember that the hierarchy and directory are always shown at the top of the screen.\nTo create a file or directory, use create \"[file/dirname (end in /)]\".\nTo read a file, type \"cat [filename]\".\nWant to write to a file? Use \"write [filename]\" to begin the writing process.\nWant to rename a file or folder? Use \"ren [file/dirname (end in /)]\"\nCopying a file or folder is as simple as \"copy [file/dirname (end in /]\"\nDeleting a file is as simple as using \"del [file/dirname (end in /)]\".\nChange directory? Use \"cd [dirname]\". cd also allows you to change back to the previous directory \"../\" or the root directory with \"/\".\nDone with writing to a file or want to leave the hierarchy? Simply type exit.\n\nThis terminal is guided to shift less technical users into using some basic terminal commands.\n\n{kpress}"
         )
         key()
 
@@ -136,7 +138,7 @@ class Menu:
             folders = []
             files = []
             printStr = Menu.boldText(
-                f"Hierarchy: \"{obj}\"\nDirectory: \"/{currentDir}\"\n\nAvailable Files:\n\n"
+                f"Type \"exit\" to exit to the creator.\n\nHierarchy: \"{obj}\"\nDirectory: \"/{currentDir}\"\n\nAvailable Files:\n\n"
             )
             if dirs != []:
                 for f in dirs:
@@ -151,7 +153,7 @@ class Menu:
                     printStr += f" ↳ \"{f}\"\n"
             else:
                 printStr += Menu.italicText(
-                    "No files or directories were found.\nFind information on creating files and directories in the Tutorial.\nType \"exit\" to exit to the creator.\n"
+                    "No files or directories were found.\nFind information on creating files and directories in the Tutorial.\n"
                 )
             try:
                 o = input(f"{printStr}{newline}{arrow}").strip()
@@ -180,19 +182,12 @@ class Command:
 
     def selector(c):
         main = c[0].lower()
+        if main == "exit": return "exit"
         try:
             arg = c[1]
         except:
-            pass
-        try:
-            print(
-                f"{Menu.boldText('Info:')} \"{c[2]}\" and any other queries were ignored as they will not be used.\n{kpress}"
-            )
-            key()
-        except:
-            pass
-        if main == "exit": return "exit"
-        elif main == "del":
+            return Menu.error("No argument was specified.")
+        if main == "del":
             try:
                 if arg == "*":
                     try:
@@ -226,9 +221,17 @@ class Command:
     def command(c, obj):
         main = c[0].lower()
         try:
-            arg = c[1]
+            print(
+                f"{Menu.boldText('Info:')} \"{c[2]}\" and any other queries were ignored as they will not be used.\n{kpress}"
+            )
+            key()
         except:
             pass
+        if main == "exit": return "exit"
+        try:
+            arg = c[1]
+        except:
+            noArg = True
         legalDir = obj.getLegalDir()
         try:
             print(
@@ -238,8 +241,7 @@ class Command:
         except:
             pass
         cls()
-        if main == "exit": return "exit"
-        elif main == "create":
+        if main == "create":
             try:
                 if arg[-1] == "/":
                     mkDir(f"{legalDir}/{arg}")
@@ -284,7 +286,11 @@ class Command:
                     "An issue occured while processing your del command.\nNote that deleteing a directory requires a backslash. (Ex: \"del ex/\")"
                 )
         elif main == "cd":
-            if arg == "/":
+            if noArg:
+                return Menu.error(
+                    "An issue occured while processing your cd command.\nNote that you cannot cd into a file."
+                )
+            elif arg == "/":
                 obj.changeDir(obj.__str__())
             elif arg == "../" or arg == "/..":
                 if obj.getDir() == f"{obj}/":
@@ -322,8 +328,25 @@ class Command:
                 return Menu.error(
                     "An issue occured while processing your cat command.\nNote you cannot cat a folder."
                 )
+        elif main == "write":
+            try:
+                if arg in lsDir(legalDir):
+                    Command.write(f"{legalDir}/{arg}")
+                else:
+                    raise FileNotFoundError
+            except:
+                return Menu.error(
+                    "An issue occured while processing your write command.\nNote you cannot write to a folder."
+                )
+        elif main == "ren":
+            pass
+        elif main == "copy":
+            pass
         else:
             return False
+
+    def write(dir):
+        input(dir)
 
 
 # Function
