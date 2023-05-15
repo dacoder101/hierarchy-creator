@@ -1,6 +1,7 @@
 <h1>Hierarchy Creator</h1>
-<h3>Sorry for another postponed release! Bugfixes and other addtions have been released.</h3>
-<b>Work on the writing system has not started yet, but I will expect it to take til Friday at the least.<br>No changes will be made this weekend. If it is not completed by then it will 100% be finished by May 1st.</b><br><br>
+
+<h3>This project has been put on hold and will be completely redesigned.<br>I practically jumped up a skill level in the middle of the project, and wasn't satisfied at its current state <i>you could probably tell because i was suppost to complete may 1st</i><br>Anyway, I will be starting on pyos3 and returning to this later.</i>
+<hr>
 A python program allowing for custom hierarchies all from the CLI.
 
 One of the most time consuming projects I've ever tried.
