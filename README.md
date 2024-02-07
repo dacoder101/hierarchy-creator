@@ -1,3 +1,5 @@
+<h2>This project has been discontinued and I do not have any plans to revive it.</h2>
+
 <h1>Hierarchy Creator</h1>
 
 <h3>This project has been put on hold and will be completely redesigned.<br>I practically jumped up a skill level in the middle of the project, and wasn't satisfied at its current state <i>you could probably tell because i was suppost to complete may 1st</i><br>Anyway, I will be starting on pyos3 and returning to this later.</i>
